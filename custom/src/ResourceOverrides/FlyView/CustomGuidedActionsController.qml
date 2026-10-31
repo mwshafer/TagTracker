@@ -13,6 +13,7 @@ QtObject {
     readonly property int actionClearMap:                    customActionStart + 8
     readonly property int actionDownloadLogs:               customActionStart + 9
     readonly property int actionCalibrationSweep:           customActionStart + 10
+    readonly property int actionShutdownController:         customActionStart + 11
 
     readonly property string autoDetectionTitle:            qsTr("Go")
     readonly property string startDetectionTitle:           qsTr("Start Detection")
@@ -24,6 +25,7 @@ QtObject {
     readonly property string clearLogsTitle:                qsTr("Clear Logs")
     readonly property string clearMapTitle:                 qsTr("Clear Map")
     readonly property string calibrationSweepTitle:         qsTr("Calibration Sweep")
+    readonly property string shutdownControllerTitle:       qsTr("Shutdown Controller")
 
     readonly property string autoDetectionMessage:          qsTr("Takeoff, rotate, return.")
     readonly property string startDetectionMessage:         qsTr("Start pulse detection for the specified tag(s).")
@@ -35,6 +37,7 @@ QtObject {
     readonly property string clearLogsMessage:              qsTr("Clear companion logs.")
     readonly property string clearMapMessage:               qsTr("Clear pulse map items.")
     readonly property string calibrationSweepMessage:       qsTr("Record IQ while turning 360 degrees clockwise, then 360 degrees counter-clockwise. PX4 flies a slow 3 m radius circle, up to 6 m from the current position: keep that area clear.")
+    readonly property string shutdownControllerMessage:     qsTr("Power off the companion computer. Wait about 10 seconds after the controller indicator turns red before removing the battery.")
 
     function customConfirmAction(actionCode, actionData, mapIndicator, confirmDialog) {
         switch (actionCode) {
@@ -88,6 +91,11 @@ QtObject {
             confirmDialog.title = calibrationSweepTitle
             confirmDialog.message = calibrationSweepMessage
             break
+        case actionShutdownController:
+            confirmDialog.hideTrigger = true
+            confirmDialog.title = shutdownControllerTitle
+            confirmDialog.message = shutdownControllerMessage
+            break
         default:
             return false;
         }
@@ -126,6 +134,9 @@ QtObject {
             break
         case actionCalibrationSweep:
             QGroundControl.corePlugin.calibrationSweep()
+            break
+        case actionShutdownController:
+            QGroundControl.corePlugin.shutdownController()
             break
         default:
             return false;

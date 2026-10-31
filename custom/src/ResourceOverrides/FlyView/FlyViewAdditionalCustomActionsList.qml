@@ -114,6 +114,14 @@ Item {
             visible:    true,
             enabled:    QGroundControl.corePlugin.customMapItems.count > 0 && !QGroundControl.corePlugin.activeRotation,
             action:     _customController.actionClearMap,
+        },
+
+        {
+            title:      _customController.shutdownControllerTitle,
+            visible:    true,
+            enabled:    _controllerAvailable && !_controllerBusy && !_activeVehicle.armed
+                        && (_controllerStatus == CustomPlugin.ControllerStatusHasTags || _controllerStatus == CustomPlugin.ControllerStatusIdle),
+            action:     _customController.actionShutdownController,
         }
     ]
 }

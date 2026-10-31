@@ -907,6 +907,22 @@ void CustomPlugin::cleanLogs()
     stateMachine->start();
 }
 
+void CustomPlugin::shutdownController()
+{
+    Vehicle* vehicle = MultiVehicleManager::instance()->activeVehicle();
+    if (!vehicle) {
+        qgcApp()->showAppMessage(tr("No vehicle connected"));
+        return;
+    }
+    if (vehicle->armed()) {
+        qgcApp()->showAppMessage(tr("Disarm before shutting down the controller"));
+        return;
+    }
+
+    // param1 0 leaves the autopilot running; param2 2 powers off the companion computer
+    vehicle->sendMavCommand(MAV_COMP_ID_ONBOARD_COMPUTER, MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN, true, 0.0f, 2.0f);
+}
+
 QString CustomPlugin::holdFlightMode(void)
 {
     return holdFlightMode(MultiVehicleManager::instance()->activeVehicle());

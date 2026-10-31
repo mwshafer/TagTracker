@@ -103,6 +103,8 @@ public:
     Q_INVOKABLE void saveLogs           (void);
     Q_INVOKABLE void cleanLogs          (void);
     Q_INVOKABLE void clearMap           (void);
+    /// Powers off the companion computer; refused while armed.
+    Q_INVOKABLE void shutdownController(void);
 
     // Overrides from QGCCorePlugin
     void                init                    (void) final;
